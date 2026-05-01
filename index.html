@@ -1,10 +1,186 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>PetMatch Advisor</title>
+<title>PetMatch Advisor</title>
+
+<style>
+body {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f5f7fb;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 700px;
+    margin: auto;
+}
+
+.chat {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 15px;
+    animation: fadeIn 0.4s;
+}
+
+.user {
+    background: #dbeafe;
+}
+
+.bot {
+    background: #f0f7ff;
+}
+
+.pet-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.pet-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.pet-card.selected {
+    border: 2px solid #4CAF50;
+}
+
+.pet-card img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+}
+
+.pet-card p {
+    padding: 5px;
+    margin: 0;
+    text-align: center;
+}
+
+select, button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+}
+
+button {
+    background: #4CAF50;
+    color: white;
+}
+
+@keyframes fadeIn {
+    from {opacity:0;}
+    to {opacity:1;}
+}
+</style>
 </head>
+
 <body>
-    <h1>PetMatch Advisor</h1>
-    <p>This is my demo project.</p>
+
+<div class="container" id="chat"></div>
+
+<script>
+
+let selectedPet="";
+let hours=0;
+let activity="";
+
+function addMessage(text, type="bot") {
+    let div=document.createElement("div");
+    div.className="chat "+type;
+    div.innerHTML=text;
+    document.getElementById("chat").appendChild(div);
+    window.scrollTo(0,document.body.scrollHeight);
+}
+
+function start() {
+
+addMessage("🐾 Before we start… what pet do you *dream* of having?");
+
+let options=`
+<div class="pet-grid">
+<div class="pet-card" onclick="choosePet('husky')">
+<img src="https://images.unsplash.com/photo-1517423440428-a5a00ad493e8f8">
+<p>Husky</p>
+</div>
+<div class="pet-card" onclick="choosePet('golden')">
+<img src="https://images.unsplash.com/photo-1558944351-c3c0d3f1e8f8">
+<p>Golden</p>
+</div>
+<div class="pet-card" onclick="choosePet('cat')">
+<img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131">
+<p>Cat</p>
+</div>
+<div class="pet-card" onclick="choosePet('small')">
+<img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b">
+<p>Small Dog</p>
+</div>
+</div>
+`;
+
+addMessage(options,"user");
+}
+
+function choosePet(pet){
+selectedPet=pet;
+
+addMessage("I see why you’d choose that. It’s a great pet.","bot");
+
+addMessage(`
+How many hours are you away from home each day?
+<select onchange="setHours(this.value)">
+<option value="4">Less than 4</option>
+<option value="8">4-8</option>
+<option value="10">More than 8</option>
+</select>
+`,"user");
+}
+
+function setHours(v){
+hours=v;
+
+addMessage(`
+And how active are you?
+<select onchange="setActivity(this.value)">
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+</select>
+`,"user");
+}
+
+function setActivity(v){
+activity=v;
+
+addMessage("Let’s pause for a second.","bot");
+
+let risk=20;
+
+if(selectedPet==="husky" && hours>8 && activity==="Low"){
+risk=90;
+}
+
+addMessage(`
+⚠️ This might become overwhelming.
+
+Estimated risk: ${risk}%
+
+After a few months, you may come home to a restless, frustrated pet that hasn’t had enough activity or attention.
+
+🌿 A calmer pet might fit your life better.
+`,"bot");
+}
+
+start();
+
+</script>
+
 </body>
 </html>
