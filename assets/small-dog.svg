@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520">
+  <rect width="800" height="520" fill="#efe5dd"/>
+  <rect y="340" width="800" height="180" fill="#d8c1a5"/>
+  <circle cx="182" cy="108" r="54" fill="#fff7ee" opacity="0.9"/>
+  <path d="M302 318c0-61 49-110 110-110h0c61 0 110 49 110 110v34H302z" fill="#9f7a59"/>
+  <path d="M352 228c-30-22-48-50-50-94 40 13 68 33 84 63z" fill="#7f6047"/>
+  <path d="M468 228c30-22 48-50 50-94-40 13-68 33-84 63z" fill="#7f6047"/>
+  <ellipse cx="412" cy="282" rx="95" ry="74" fill="#f6efe7"/>
+  <circle cx="378" cy="258" r="9" fill="#241f1b"/>
+  <circle cx="446" cy="258" r="9" fill="#241f1b"/>
+  <path d="M412 274l-16 18h32z" fill="#241f1b"/>
+  <path d="M370 302c20 22 82 22 102 0" stroke="#241f1b" stroke-width="9" fill="none" stroke-linecap="round"/>
+  <text x="48" y="470" font-family="Georgia, serif" font-size="46" fill="#6d513c">Small Dog</text>
+</svg>

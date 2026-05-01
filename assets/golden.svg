@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520">
+  <rect width="800" height="520" fill="#f5e4be"/>
+  <rect y="340" width="800" height="180" fill="#f0d2a1"/>
+  <circle cx="618" cy="112" r="64" fill="#fff5de" opacity="0.7"/>
+  <path d="M280 308c0-72 58-130 130-130s130 58 130 130v44H280z" fill="#d7a55a"/>
+  <path d="M319 220c-15-43-2-80 34-102 4 40 20 67 44 83z" fill="#c88f46"/>
+  <path d="M497 220c15-43 2-80-34-102-4 40-20 67-44 83z" fill="#c88f46"/>
+  <ellipse cx="410" cy="272" rx="106" ry="84" fill="#efc57b"/>
+  <circle cx="372" cy="250" r="10" fill="#2a2521"/>
+  <circle cx="448" cy="250" r="10" fill="#2a2521"/>
+  <path d="M410 268l-18 22h36z" fill="#2a2521"/>
+  <path d="M360 300c25 30 105 30 130 0" stroke="#2a2521" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <text x="48" y="470" font-family="Georgia, serif" font-size="46" fill="#7f5627">Golden Retriever</text>
+</svg>
