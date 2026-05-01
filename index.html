@@ -18,19 +18,14 @@ body {
 
 .chat {
     background: white;
-    padding: 20px;
-    border-radius: 16px;
-    margin-bottom: 15px;
-    animation: fadeIn 0.4s;
+    padding: 16px;
+    border-radius: 14px;
+    margin-bottom: 12px;
+    animation: fadeIn 0.35s ease;
 }
 
-.user {
-    background: #dbeafe;
-}
-
-.bot {
-    background: #f0f7ff;
-}
+.user { background: #dbeafe; }
+.bot  { background: #f0f7ff; }
 
 .pet-grid {
     display: grid;
@@ -58,8 +53,8 @@ body {
 }
 
 .pet-card p {
-    padding: 5px;
     margin: 0;
+    padding: 6px;
     text-align: center;
 }
 
@@ -73,11 +68,12 @@ select, button {
 button {
     background: #4CAF50;
     color: white;
+    border: none;
 }
 
 @keyframes fadeIn {
-    from {opacity:0;}
-    to {opacity:1;}
+    from {opacity:0; transform:translateY(6px);}
+    to   {opacity:1; transform:translateY(0);}
 }
 </style>
 </head>
@@ -88,96 +84,126 @@ button {
 
 <script>
 
-let selectedPet="";
-let hours=0;
-let activity="";
+let selectedPet = "";
+let hours = 0;
+let activity = "";
 
+/* ---------- UI helpers ---------- */
 function addMessage(text, type="bot") {
-    let div=document.createElement("div");
-    div.className="chat "+type;
-    div.innerHTML=text;
+    const div = document.createElement("div");
+    div.className = "chat " + type;
+    div.innerHTML = text;
     document.getElementById("chat").appendChild(div);
-    window.scrollTo(0,document.body.scrollHeight);
+    window.scrollTo(0, document.body.scrollHeight);
 }
 
+/* ---------- Flow ---------- */
 function start() {
 
-addMessage("🐾 Before we start… what pet do you *dream* of having?");
+    addMessage("🐾 Before we start… what pet do you *dream* of having?");
 
-let options=`
-<div class="pet-grid">
-<div class="pet-card" onclick="choosePet('husky')">
-<img src="https://images.unsplash.com/photo-1517423440428-a5a00ad493e8f8">
-<p>Husky</p>
-</div>
-<div class="pet-card" onclick="choosePet('golden')">
-<img src="https://images.unsplash.com/photo-1558944351-c3c0d3f1e8f8">
-<p>Golden</p>
-</div>
-<div class="pet-card" onclick="choosePet('cat')">
-<img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131">
-<p>Cat</p>
-</div>
-<div class="pet-card" onclick="choosePet('small')">
-<img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b">
-<p>Small Dog</p>
-</div>
-</div>
-`;
+    const options = `
+    <div class="pet-grid">
+        <div class="pet-card" onclick="choosePet('husky')">
+            <img src="https://images.unsplash.com/photo-1517423440428-a5a00ad493e8f8">
+            <p>Husky</p>
+        </div>
+        <div class="pet-card" onclick="choosePet('golden')">
+            <img src="https://images.unsplash.com/photo-1558944351-c3c0d3f1e8f8">
+            <p>Golden</p>
+        </div>
+        <div class="pet-card" onclick="choosePet('cat')">
+            <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131">
+            <p>Cat</p>
+        </div>
+        <div class="pet-card" onclick="choosePet('small')">
+            <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b">
+            <p>Small Dog</p>
+        </div>
+    </div>
+    `;
 
-addMessage(options,"user");
+    addMessage(options, "user");
 }
 
 function choosePet(pet){
-selectedPet=pet;
+    selectedPet = pet;
 
-addMessage("I see why you’d choose that. It’s a great pet.","bot");
+    addMessage("I see why you’d choose that. It’s a great pet.", "bot");
 
-addMessage(`
-How many hours are you away from home each day?
-<select onchange="setHours(this.value)">
-<option value="4">Less than 4</option>
-<option value="8">4-8</option>
-<option value="10">More than 8</option>
-</select>
-`,"user");
+    addMessage(`
+    How many hours are you away from home each day?
+    <select onchange="setHours(this.value)">
+        <option value="4">Less than 4</option>
+        <option value="8">4-8</option>
+        <option value="10">More than 8</option>
+    </select>
+    `, "user");
 }
 
 function setHours(v){
-hours=v;
+    hours = Number(v);
 
-addMessage(`
-And how active are you?
-<select onchange="setActivity(this.value)">
-<option>Low</option>
-<option>Medium</option>
-<option>High</option>
-</select>
-`,"user");
+    addMessage(`
+    And how active are you?
+    <select onchange="setActivity(this.value)">
+        <option>Low</option>
+        <option>Medium</option>
+        <option>High</option>
+    </select>
+    `, "user");
 }
 
+/* ---------- Final step (fixed) ---------- */
 function setActivity(v){
-activity=v;
+    activity = v;
 
-addMessage("Let’s pause for a second.","bot");
+    // 清空旧内容（防重复）
+    document.getElementById("chat").innerHTML = "";
 
-let risk=20;
+    addMessage("Let’s pause for a second.", "bot");
 
-if(selectedPet==="husky" && hours>8 && activity==="Low"){
-risk=90;
+    let risk = 20;
+
+    if (selectedPet === "husky" && hours > 8 && activity === "Low") {
+        risk = 90;
+    } else if (selectedPet === "golden" && hours > 8) {
+        risk = 70;
+    }
+
+    addMessage(`
+    ⚠️ This might become overwhelming.<br><br>
+    <strong>Estimated risk: ${risk}%</strong><br><br>
+    After a few months, you may come home to a restless, frustrated pet that hasn’t had enough activity or attention.
+    `, "bot");
+
+    addMessage(`
+    🌿 <strong>Recommendation:</strong><br><br>
+    A lower-energy or more independent pet would better match your lifestyle.<br><br>
+    This increases the chance of a stable and happy long-term relationship.
+    `, "bot");
+
+    addMessage(`
+    💡 <strong>Final Thought:</strong><br><br>
+    We’re not here to tell you what to choose —  
+    we’re here to help you see what might happen.
+    `, "bot");
+
+    addMessage(`
+    👉 <button onclick="restart()">Try another choice</button>
+    `, "bot");
 }
 
-addMessage(`
-⚠️ This might become overwhelming.
-
-Estimated risk: ${risk}%
-
-After a few months, you may come home to a restless, frustrated pet that hasn’t had enough activity or attention.
-
-🌿 A calmer pet might fit your life better.
-`,"bot");
+/* ---------- Restart ---------- */
+function restart(){
+    document.getElementById("chat").innerHTML = "";
+    selectedPet = "";
+    hours = 0;
+    activity = "";
+    start();
 }
 
+/* ---------- Init ---------- */
 start();
 
 </script>
